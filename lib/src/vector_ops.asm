@@ -14,6 +14,20 @@ sum_vectors:
     %define dest rdx
     %define param_size rcx
 
+.bad_args_check:
+    cmp src_1, 0
+    je .bad_ptr
+
+    cmp src_2, 0
+    je .bad_ptr
+
+    cmp dest, 0
+    je .bad_ptr
+
+    cmp param_size, 1
+    jl .bad_size
+
+.entry_point:
     cmp param_size, 4
     jl .cycle_tail
 
@@ -49,7 +63,15 @@ sum_vectors:
     ; Check if next iteration is required
     cmp param_size, 0
     jne .cycle_tail
+    xor eax, eax
+    jmp .return
+
+.bad_ptr:
+    mov eax, BAD_PTR_STATUS
+    jmp .return
+
+.bad_size:
+    mov eax, BAD_SIZE_STATUS
 
 .return:
-    xor rax, rax
     ret

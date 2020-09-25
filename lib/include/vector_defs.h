@@ -13,5 +13,6 @@
 
 #define VOO_BAD_PTR_STATUS -1
 #define VOO_BAD_SIZE_STATUS -2
+#define VOO_OK 0
 
 #endif //ASM_LAB_VECTOR_DEFS_H
