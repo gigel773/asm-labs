@@ -28,8 +28,40 @@ sum_vectors:
     jl .bad_size
 
 .entry_point:
+    cmp param_size, 8
+    jg .unrolled_cycle_body
     cmp param_size, 4
     jl .cycle_tail
+    jmp .opt_cycle_body
+
+.unrolled_cycle_body:
+    ; Summing up to 4 elements
+    movdqu xmm0, [src_1 + DWORD_ADDRESS_OFFSET * 0]
+    movdqu xmm2, [src_1 + DWORD_ADDRESS_OFFSET * 4]
+    movdqu xmm1, [src_2 + DWORD_ADDRESS_OFFSET * 0]
+    movdqu xmm3, [src_2 + DWORD_ADDRESS_OFFSET * 4]
+
+    addps xmm0, xmm1
+    addps xmm2, xmm3
+
+    movdqu [dest + DWORD_ADDRESS_OFFSET * 0], xmm0
+    movdqu [dest + DWORD_ADDRESS_OFFSET * 4], xmm2
+
+    ; Switch to next iteration
+    add src_1, DWORD_ADDRESS_OFFSET * 8
+    add src_2, DWORD_ADDRESS_OFFSET * 8
+    add dest, DWORD_ADDRESS_OFFSET * 8
+    sub param_size, 8
+
+    ; Choose next execution branch
+    cmp param_size, 8
+    jg .unrolled_cycle_body
+
+    cmp param_size, 4
+    jg .opt_cycle_body
+
+    cmp param_size, 0
+    je .return
 
 .opt_cycle_body:
     ; Summing up to 4 elements
@@ -43,8 +75,11 @@ sum_vectors:
     add src_2, DWORD_ADDRESS_OFFSET * 4
     add dest, DWORD_ADDRESS_OFFSET * 4
     sub param_size, 4
+
+    ; Choose next execution branch
     cmp param_size, 4
     jg .opt_cycle_body
+
     cmp param_size, 0
     je .return
 
