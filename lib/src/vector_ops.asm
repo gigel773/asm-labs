@@ -4,7 +4,6 @@ section .text
 
 global sum_vectors
 
-
 ;
 ; Brief: sums up two given vectors numbers
 ;
@@ -35,7 +34,7 @@ sum_vectors:
     jmp .opt_cycle_body
 
 .unrolled_cycle_body:
-    ; Summing up to 4 elements
+    ; Summing up to 8 elements
     movdqu xmm0, [src_1 + DWORD_ADDRESS_OFFSET * 0]
     movdqu xmm2, [src_1 + DWORD_ADDRESS_OFFSET * 4]
     movdqu xmm1, [src_2 + DWORD_ADDRESS_OFFSET * 0]
