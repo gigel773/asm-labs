@@ -1,54 +1,14 @@
+%include "own_defs.asm"
+
 section .text
 
-global _sum, _sum_vector, _sum_vectors
+global sum_vectors
 
-BAD_PTR_STATUS EQU -1
-BAD_SIZE_STATUS EQU -2
-DWORD_ADDRESS_OFFSET EQU 4
-
-;
-; Brief: sums up two numbers
-;
-_sum:
-    mov eax, edi
-    add eax, esi
-    ret
-
-;
-; Brief: calculates the sum of the elements
-;
-_sum_vector:
-    ; Check bad arguments
-    cmp rdi, 0
-    jne .bad_size_check
-    mov eax, BAD_PTR_STATUS
-    jmp .return_error
-
-.bad_size_check:
-    cmp rsi, 0
-    jne .entry_point
-    mov eax, BAD_SIZE_STATUS
-    jmp .return_error
-
-.entry_point:
-    ; Function start
-    xor eax, eax
-    xor ecx, ecx
-
-.cycle_tail:
-    add eax, dword [rdi]
-    add rdi, DWORD_ADDRESS_OFFSET
-    add ecx, 1
-    cmp rcx, rsi
-    jne .cycle_tail
-
-.return_error:
-    ret
 
 ;
 ; Brief: sums up two given vectors numbers
 ;
-_sum_vectors:
+sum_vectors:
     %define src_1 rdi
     %define src_2 rsi
     %define dest rdx
