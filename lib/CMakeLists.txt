@@ -10,7 +10,8 @@ enable_language(ASM_NASM)
 
 add_library(voo src/vector_ops.asm
         src/cum_sum.asm
-        src/simple_sum.asm)
+        src/simple_sum.asm
+        src/count.asm)
 
 target_include_directories(voo
         PUBLIC include
