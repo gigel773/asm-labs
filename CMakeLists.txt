@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(asm_lab CXX)
+project(asm_lab)
 
 add_subdirectory(lib)
 
@@ -12,6 +12,8 @@ enable_language(ASM_NASM)
 
 add_executable(asm_lab_1 asm_lab_1.cpp)
 add_executable(asm_lab_2 asm_lab_2.cpp)
+add_executable(perf_measurements perf_measurements.cpp)
 
 target_link_libraries(asm_lab_1 PUBLIC voo)
 target_link_libraries(asm_lab_2 PUBLIC voo)
+target_link_libraries(perf_measurements PUBLIC voo)
