@@ -75,8 +75,6 @@ int main()
         }
     }
 
-    std::cout << result << std::endl;
-
     std::cout << "C++ implementation runs with: " << cxx_time.count() / inner_cycle << " ms" << std::endl;
 
     return 0;

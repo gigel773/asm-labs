@@ -13,6 +13,14 @@ sum_vectors:
     %define dest rdx
     %define param_size rcx
 
+    ; Save context
+    push rbp
+    push rbx
+    push r12
+    push r13
+    push r14
+    push r15
+
 .bad_args_check:
     cmp src_1, 0
     je .bad_ptr
@@ -108,4 +116,11 @@ sum_vectors:
     mov eax, BAD_SIZE_STATUS
 
 .return:
+    pop r15
+    pop r14
+    pop r13
+    pop r12
+    pop rbx
+    pop rbp
+
     ret
