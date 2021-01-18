@@ -13,7 +13,7 @@ sum_vectors:
     %define dest rdx
     %define param_size rcx
 
-    ; Save context
+    ; Save context (ABI x86-64)
     push rbp
     push rbx
     push r12
@@ -116,6 +116,8 @@ sum_vectors:
     mov eax, BAD_SIZE_STATUS
 
 .return:
+
+    ; Restore context
     pop r15
     pop r14
     pop r13

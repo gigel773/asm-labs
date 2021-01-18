@@ -13,6 +13,7 @@ count:
     %define symbol edx
     %define dest rcx
 
+    ; Save context (ABI x86-64)
     push rbp
     push rbx
     push r12
@@ -41,6 +42,7 @@ count:
     mov dword [dest], eax
     xor eax, eax
 
+    ; Restore context
     pop r15
     pop r14
     pop r13
